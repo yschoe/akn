@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# requires: swaks
+# 	sudo apt install swaks
+
 if ($#ARGV != 3) {
 
   print <<EOF;
@@ -18,9 +21,9 @@ print "SENDING $email: $subject\n";
 
 if ($attach =~ /NULL/) {
 print "SENDING - NO attachment\n";
-$str=("swaks  -s \"127.0.0.1\" -p \"25\" -f \"Association of Korean Neuroscientists \<choe\@cs.tamu.edu\>\" -t \"$email\" --header \"Subject: $subject\" --body $text");
+$str=("swaks  -s \"127.0.0.1\" -p \"25\" -f \"Association of Korean Neuroscientists \<info\@akneuro.org\>\" -t \"$email\" --header \"Subject: $subject\" --body $text");
 } else {
-$str=("swaks  -s \"127.0.0.1\" -p \"25\" -f \"Association of Korean Neuroscientists \<choe\@cs.tamu.edu\>\" -t \"$email\" --header \"Subject: $subject\" --body $text --attach $attach");
+$str=("swaks  -s \"127.0.0.1\" -p \"25\" -f \"Association of Korean Neuroscientists \<info\@akneuro.org\>\" -t \"$email\" --header \"Subject: $subject\" --body $text --attach $attach");
 }
 
 #print $str;
