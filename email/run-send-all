@@ -1,0 +1,10 @@
+#!/bin/bash
+
+let c=1
+for addr in `cat test-email` ; do 
+  echo "[$c]"
+  echo -n $i
+  let "c = $c+1"
+  ./run-send "AKN 2018 annual meeting: 1st announcement" $addr \
+	email-1st/akn2018-first-announcement.doc email-1st/email-txt | grep SEND
+done
