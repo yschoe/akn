@@ -1,0 +1,136 @@
+#!/usr/bin/perl
+
+# Yoonsuck Choe
+
+########################################
+# Config
+########################################
+
+$year=2018;		# year
+$password="dummy";	# htaccess password for pdf download link
+
+# files: 
+#	- input: Tab Separated Value file
+#		email list file name: akn2018-reg-final.tsv
+#	- output:
+#		html file: akn2018.html
+
+# TSV file format:
+# timestamp
+# lastname
+# firstname
+# email
+# affiliation
+# will attend?
+# member category
+# region
+# theme
+# email opt-in?
+# abstract url 1
+# abstract url 2
+# abstract url 3
+# abstract url 4
+# abstract url 5
+########################################
+
+
+
+open(TP,"/bin/date |");
+while(<TP>) {
+  chop;
+  $date = $_;
+}
+close(TP);
+
+# yschoe: edit target file
+open(WP,">akn$year.html") || die "err writing file";
+
+print WP "<!DOCTYPE html>\n<html> <head><title> AKN $year Abstracts</title>\n";
+
+print WP '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+
+print WP <<'EOF';
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+        BODY  { background: white; color: black ; font-family: sans-serif}
+        P { font-family: sans-serif }
+        H1    { font-family: sans-serif }
+        H2    { font-family: sans-serif }
+        H3    { font-family: sans-serif }
+        B     { font-family: sans-serif }
+        TD    { font-family: sans-serif }
+        LI    { font-family: sans-serif }
+        PRE   { font-family: sans-serif }
+        A     { font-family: sans-serif ; font-style: normal}
+        BLOCKQUOTE { font-family: sans-serif ; font-style: normal}
+  	TABLE, th, td { border: 1px solid #dddddd; border-collapse: collapse;}
+        .note { margin-left: 5em; margin-right: 5em }
+-->
+</STYLE>
+EOF
+
+print WP "</head>\n";
+
+# yschoe: edit page title and link to pdf
+print WP "<body><h3>AKN Abstracts $year</h3><p><a href=\"akn/akn-abstracts$year.pdf\">Abstract book (enter akn $password when prompted)</a><p>";
+print WP "<i>Last updated: $date. Please reload the PDF in your browser to refresh if you've viewed the abstract book previously.</i><p>";
+print WP "<table>\n";
+
+# yschoe: change email list file
+open(FP,"akn$year-reg-final.tsv");
+
+#############################################################################
+# Get lines
+#############################################################################
+while (<FP>) {
+  @data = split(/\t/,$_);
+  $data_hash{"$data[1], $data[2]"} = $_;
+}
+close(FP);
+
+#############################################################################
+# Process lines
+#############################################################################
+
+print WP "<tr><b><td></td><td><b>Name</b></td> <td><b>Affiliation</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td> <b>Theme </b></td></b></tr>\n";
+
+$id=1;
+foreach $k (sort(keys(%data_hash))) {
+
+ $l = $data_hash{$k};
+ chop $l;
+ @data = split(/\t/,$l);  
+
+ print WP "<tr><td>$id</td><td><b>$data[1], $data[2]</b></td><td><i>$data[4]</i></td>\n";
+
+ $id++;
+
+ $count=1;
+ @abst = (11,15,12,13,14); # order was screwed up so had to fix it .. :-(
+ foreach $i (@abst) { #($i=11; $i<=15; ++$i) {
+	if ($data[$i] ne "") {
+ 		print WP "<td><a href=\"$data[$i]\">Abst.".($count++)."</a></td>\n"; 
+	} else {
+		print WP "<td> &nbsp; </td>\n";
+	}
+ }
+
+ # quick hack to deal with special case when making multiple themes
+ # appear on different lines
+ $theme = $data[17]; 
+ $theme =~ s/Neural excitability, synapses, and Glia/NSG/;
+ $theme =~ s/,/<br>/g;
+ $theme =~ s/NSG/Neural excitability, synapses, and Glia/;
+
+ print WP "<td> $theme </td>\n";
+
+ print WP "</tr>";
+ 
+}
+
+
+
+print WP "</table></body></html>\n";
+
+close(WP);
+
