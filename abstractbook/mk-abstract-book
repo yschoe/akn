@@ -6,8 +6,8 @@
 # Config
 ########################################
 
-$year=2018;		# year
-$password="dummy";	# htaccess password for pdf download link
+$year=2019;		# year
+$password="xxxxxx";	# htaccess password for pdf download link
 
 # files: 
 #	- input: Tab Separated Value file
