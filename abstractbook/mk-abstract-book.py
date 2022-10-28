@@ -55,24 +55,11 @@ def capitalize (name):
   quick hack to properly capitalize names
   '''
 
-  words = re.split("\s",name)
-  # 1. two words
-  ret = ""
-  if (len(words)==2):
-    for w in words:
+  words = re.split("[\s-]",name)
+
+  for w in words:
        ret = ret+w.capitalize()+" "
     ret = ret[:-1]
-  
-  words = re.split("-",ret)
-  # 2. A-B 
-  if (len(words)>1):
-    ret = ""
-    for w in words:
-       ret = ret+w.capitalize()+"-"
-    return ret[:-1]
-
-  # 3. Other  
-  return name.capitalize()
 
 '''
   
