@@ -55,11 +55,38 @@ def capitalize (name):
   quick hack to properly capitalize names
   '''
 
-  words = re.split("[\s-]",name)
+  # 0. Only if all caps
+  if len(re.findall("[a-z]",name))>0:
+    return name
 
+  dash_loc = name.find('-')
+
+  # 1. two words, and "-" in the middle
+  words = re.split('\s|-',name)
+
+  ret = ""
   for w in words:
-       ret = ret+w.capitalize()+" "
-    ret = ret[:-1]
+    ret = ret+w.capitalize()+" "
+  ret = ret[:-1]
+
+  # put back dash
+  if dash_loc>0:
+    ret = ret[:dash_loc] + "-" + ret[dash_loc+1:]
+
+  # 2. parenthesized nicknames
+  words = re.split('\(',ret)
+
+  if (len(words)>1):
+    ret = ""
+    n = 0
+    for w in words:
+      if n==0:
+        ret = ret+w+"("
+      else:
+        ret = ret+w.capitalize()
+      n += 1
+
+  return ret
 
 '''
   
