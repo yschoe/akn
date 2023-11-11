@@ -16,9 +16,9 @@ if (len(sys.argv) != 2):
 #--------------------
 # CONFIG
 #--------------------
-year = 2022
+year = 2023
 filename = sys.argv[1]	
-lastname = "Last name (in English)"    # column title for lastname
+lastname = "Last name (in English: Kim, Lee, Park, etc.)"    # column title for lastname
 firstname = "First name (in English)"  # column title for firsname
 #--------------------
 
@@ -32,7 +32,7 @@ def print_header (year):
 
   print("<h3>AKN Abstracts "+str(year)+"</h3>") 
   print("<table>")
-  print("<tr><b><td></td><td><b>Name</b></td><td>&nbsp</td> <td><b>Affiliation</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td> <b>Theme </b></td></b></tr>")
+  print("<tr><td></td><td><b>Name</b></td><td></td> <td><b>Affiliation</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td> <b>Theme </b></td></tr>")
 
 
 def print_footer ():
@@ -94,7 +94,7 @@ def capitalize (name):
 
 '''
 df = pd.read_csv(filename)
-df = df.sort_values(by=['Last name (in English)','First name (in English)'],ascending=True)
+df = df.sort_values(by=[lastname,firstname],ascending=True)
 
 '''
 
@@ -126,8 +126,8 @@ for idx in df.index:
   n+=1
 
   # 1. Name
-  td_print( capitalize(df['Last name (in English)'][idx]) )
-  td_print( capitalize(df['First name (in English)'][idx]) )
+  td_print( capitalize(df[lastname][idx]) )
+  td_print( capitalize(df[firstname][idx]) )
 
   # 2. Affiliation
   td_print(df['Affiliation'][idx])
