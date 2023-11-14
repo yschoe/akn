@@ -8,6 +8,18 @@ import copy
 import re
 import math
 import sys
+from datetime import datetime
+import pytz
+
+# Set the time zone to US Central
+central_tz = pytz.timezone('US/Central')
+
+# Get the current time in UTC
+utc_now = datetime.utcnow()
+
+# Convert UTC time to US Central Time
+central_now = utc_now.replace(tzinfo=pytz.utc).astimezone(central_tz)
+
 
 if (len(sys.argv) != 2):
   print("usage: ./mk-abstract-book.py <csv-filename>")
@@ -30,7 +42,7 @@ firstname = "First name (in English)"  # column title for firsname
 '''
 def print_header (year):
 
-  print("<h3>AKN Abstracts "+str(year)+"</h3>") 
+  print("Updated: ", central_now.strftime('%Y-%m-%d %H:%M:%S %Z'))
   print("<table>")
   print("<tr><td></td><td><b>Name</b></td><td></td> <td><b>Affiliation</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td><b>Abst</b></td> <td> <b>Theme </b></td></tr>")
 
