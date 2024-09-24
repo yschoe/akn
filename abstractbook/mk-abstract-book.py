@@ -25,10 +25,14 @@ if (len(sys.argv) != 2):
   print("usage: ./mk-abstract-book.py <csv-filename>")
   exit()
 
+
+year = datetime.datetime.now().year
+
+print(year_string)
 #--------------------
 # CONFIG
 #--------------------
-year = 2023
+#year = 2023 : computed above
 filename = sys.argv[1]	
 lastname = "Last name (in English: Kim, Lee, Park, etc.)"    # column title for lastname
 firstname = "First name (in English)"  # column title for firsname
