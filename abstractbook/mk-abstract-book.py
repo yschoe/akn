@@ -26,9 +26,9 @@ if (len(sys.argv) != 2):
   exit()
 
 
-year = datetime.datetime.now().year
+year = datetime.now().year
 
-print(year_string)
+#print(year)
 #--------------------
 # CONFIG
 #--------------------
